@@ -1,0 +1,10 @@
+[
+    {
+        "name": "TinyLTinyLlama-1.1B-Chat-v1.0.F16.llamafile",
+        "url": "https://huggingface.co/Mozilla/TinyLlama-1.1B-Chat-v1.0-llamafile/resolve/main/TinyLlama-1.1B-Chat-v1.0.F16.llamafile?download=true"
+    },
+    {
+        "name": "Meta-Llama-3-8B-Instruct.Q5_K_M.llamafile",
+        "url": "https://huggingface.co/Mozilla/Meta-Llama-3-8B-Instruct-llamafile/resolve/main/Meta-Llama-3-8B-Instruct.Q5_K_M.llamafile?download=true"
+    }
+]
