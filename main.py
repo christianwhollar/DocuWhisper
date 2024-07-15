@@ -1,61 +1,27 @@
-import os
-import toml
-from dotenv import load_dotenv
+# main.py
 
-from src.document_loader import DocumentLoader
-from src.embeddings import Embeddings
-from src.vector_store import VectorStore
-from src.retriever import Retriever
-from src.llm import LLM
-from src.rag_agent import RAGAgent
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from src.initialize import initialize_rag_agent
 
-def main():
-    # load env vars
-    load_dotenv()
-    
-    env = os.getenv('ENV')
+app = FastAPI()
 
-    # load config vars
-    with open(f'config/config.{env}.toml', 'r') as file:
-        config = toml.load(file)
+class Query(BaseModel):
+    text: str
 
-    model_id = config['model']['id']
+class Response(BaseModel):
+    answer: str
 
-    # directory to load documents from
-    document_directory = "data/test"
+rag_agent = initialize_rag_agent()
 
-    # create document loader
-    loader = DocumentLoader(document_directory)
-    titles, documents = loader.load_documents()
+@app.post("/query", response_model=Response)
+async def query(query: Query):
+    try:
+        answer = rag_agent.answer(query.text)
+        return Response(answer=answer)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
-    # get embeddings for loaded documents
-    HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
-
-    # save directory for embeddings
-    embedding_directory = document_directory + "/embeddings"
-
-    # generate or load embeddings
-    embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
-    document_embeddings = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
-
-    embedding_dimension = len(document_embeddings[0])
-
-    vector_store = VectorStore(dimension = embedding_dimension)
-    vector_store.add_documents(documents, document_embeddings)
-
-    retriever = Retriever(vector_store, embeddings)
-    llm = LLM("http://localhost:8080/v1")
-
-    rag_agent = RAGAgent(retriever=retriever, llm=llm)
-
-    query = "Who wrote Dracula?"
-
-    answer = rag_agent.answer(query)
-    print(f"Question: {query}")
-    print(f"Answer: {answer}")
-
-    answer = rag_agent.answer("Can you repeat your answer?")
-    print(answer)
-    
 if __name__ == "__main__":
-    main()
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)

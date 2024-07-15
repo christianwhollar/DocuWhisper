@@ -1,0 +1,10 @@
+faiss_gpu==1.7.2
+openai==1.35.13
+python-dotenv==1.0.1
+toml==0.10.2
+torch==2.3.1
+transformers==4.42.4
+numpy
+fastapi
+uvicorn
+pydantic

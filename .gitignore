@@ -1,5 +1,5 @@
 .env
-*.txt
+data/test/*.txt
 *.pyc
 *.npy
 *.llamafile
