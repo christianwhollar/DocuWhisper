@@ -15,7 +15,7 @@ jobs:
         environment: development
 
         env:
-          HUGGINGFACE_API_KEY: 
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
           ENV: test
 
         steps:
