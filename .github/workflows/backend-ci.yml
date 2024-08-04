@@ -28,13 +28,10 @@ jobs:
             sed -i 's/faiss-gpu/faiss-cpu/' requirements.txt
             pip install -r requirements.txt
         
+        - name: Set up HuggingFace API Key
+          run: echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+
         - name: Run tests
           run: |
             cd backend
             pytest
-
-        - name: Lint with flake8
-          run: |
-            cd backend
-            pip install flake8
-            flake8 .

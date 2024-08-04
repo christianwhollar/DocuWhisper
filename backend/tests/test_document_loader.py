@@ -28,7 +28,7 @@ def test_load_documents(test_dir):
     titles_actual, documents_actual = loader.load_documents()
     
     titles_expected = [name.split('.')[0].replace('_', ' ') for name in TEST_FILES]
-    documents_expected = list(TEST_FILES.values())
-
-    assert all([title_expected in titles_actual for title_expected in titles_expected])
-    assert all([document_expected in documents_actual for document_expected in  documents_expected])
+    documents_expected = TEST_FILES.values()
+    
+    assert set(titles_actual) == set(titles_expected)
+    assert set(documents_actual) == set(documents_expected)
