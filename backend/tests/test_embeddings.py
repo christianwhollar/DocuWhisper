@@ -1,4 +1,5 @@
 # tests/test_embeddings.py
+from dotenv import load_dotenv
 import os
 import numpy as np
 from src.document_loader import DocumentLoader
@@ -8,7 +9,9 @@ import toml
 
 @pytest.fixture
 def setup_environment():
-    env = 'test'
+    load_dotenv()
+
+    env = os.getenv('ENV')
 
     with open(f'config/config.{env}.toml', 'r') as file:
         config = toml.load(file)

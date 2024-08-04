@@ -13,6 +13,10 @@ jobs:
     build:
         runs-on: ubuntu-latest
 
+        env:
+          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+          ENV: test
+
         steps:
         - uses: actions/checkout@v4
 
@@ -27,11 +31,6 @@ jobs:
             python -m pip install --upgrade pip
             sed -i 's/faiss-gpu/faiss-cpu/' requirements.txt
             pip install -r requirements.txt
-        
-        - name: Env Config
-          run: |
-            export HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}
-            export ENV=test
 
         - name: Test
           run: |

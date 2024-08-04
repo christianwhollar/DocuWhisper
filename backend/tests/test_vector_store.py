@@ -1,5 +1,6 @@
 # tests/test_vector_store.py
 import pytest
+from dotenv import load_dotenv
 from src.document_loader import DocumentLoader
 from src.embeddings import Embeddings
 from src.vector_store import VectorStore
@@ -8,7 +9,9 @@ import os
 
 @pytest.fixture
 def setup_environment():
-    env = 'test'
+    load_dotenv()
+
+    env = os.getenv('ENV')
 
     with open(f'config/config.{env}.toml', 'r') as file:
         config = toml.load(file)
