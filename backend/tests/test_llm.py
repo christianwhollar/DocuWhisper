@@ -1,13 +1,8 @@
-import pytest
 from unittest.mock import Mock, patch
 from openai.types.chat import ChatCompletion, ChatCompletionMessage
-from src.llm import LLM
 
-@pytest.fixture
-def llm():
-    return LLM(base_url="http://test.com")
-
-def test_llm_initialization(llm):
+def test_llm_initialization(get_llm):
+    llm = get_llm
     assert llm.client.base_url == "http://test.com"
     assert llm.client.api_key == 'sk-no-key-required'
     assert llm.model == 'LLaMA_CPP'
@@ -15,7 +10,7 @@ def test_llm_initialization(llm):
     assert llm.messages[0]["role"] == "system"
 
 @patch('src.llm.OpenAI')
-def test_llm_generate(mock_openai, llm):
+def test_llm_generate(mock_openai, get_llm):
     mock_client = Mock()
     mock_openai.return_value = mock_client
 
@@ -28,6 +23,7 @@ def test_llm_generate(mock_openai, llm):
 
     mock_client.chat.completions.create.return_value = mock_completion
 
+    llm = get_llm
     llm.client = mock_client
 
     response = llm.generate("Test prompt")
