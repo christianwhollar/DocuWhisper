@@ -45,7 +45,6 @@ class Embeddings:
             with torch.no_grad():
                 outputs = self.model(**inputs)
             
-            # Use the mean of the last hidden state as the embedding
             embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
             embeddings.append(embedding.astype(np.float32))
         

@@ -43,11 +43,16 @@ def get_embeddings(setup_environment, load_documents):
 
     return documents, embeddings, document_embeddings
 
-def test_retrieve(get_embeddings):
+@pytest.fixture
+def vector_store(get_embeddings):
     documents, embeddings, document_embeddings = get_embeddings
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
     vector_store.add_documents(documents, document_embeddings)
+    return vector_store, embeddings
+
+def test_retrieve(vector_store):
+    vector_store, embeddings = vector_store
 
     query = "This is the first document."
     k = 3
