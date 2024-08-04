@@ -10,4 +10,4 @@ def test_retrieve(get_vector_store):
     retriever = Retriever(vector_store, embeddings)
     context = retriever.retrieve(query, k=k)
 
-    assert context[0] == query
+    assert query in context[0]

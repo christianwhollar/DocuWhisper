@@ -1,7 +1,8 @@
 .env
 data/test/*.txt
-data/embeddings/*.npy
+data/test/embeddings/*.npy
 tests/test_data/embeddings/
 *.pyc
-*.llamafile
-testmancervenv/
+models/*.log
+models/*.llamafile
+backendvenv/

@@ -1,5 +1,4 @@
 # src/initialize.py
-
 import os
 import toml
 from dotenv import load_dotenv

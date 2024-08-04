@@ -9,7 +9,6 @@ class RAGAgent:
     def get_prompt(self, query:str) -> str:
         context = self.retriever.retrieve(query, k=3)
         context = ' '.join(context)
-        context = context[:100]
         prompt = f"Context: {''.join(context)}\n\nQuestion: {query}\n\nAnswer:"
         return prompt
     

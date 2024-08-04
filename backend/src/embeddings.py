@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 import numpy as np
 from transformers import AutoTokenizer, AutoModel
 import torch
@@ -15,9 +15,10 @@ class Embeddings:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(self.device)
  
-    def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str) -> List[np.ndarray]:
+    def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str) -> Tuple[List[np.ndarray], List[str]]:
         os.makedirs(embedding_directory, exist_ok=True)
         embeddings = []
+        chunked_texts_with_titles = []
 
         for title, text in zip(titles, texts):
             sentences = sent_tokenize(text)
@@ -25,6 +26,9 @@ class Embeddings:
 
             for idx, chunk in enumerate(chunked_texts):
                 chunk_title = f"{title.replace(' ', '_')}_{idx + 1}"
+                chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
+                chunked_texts_with_titles.append(chunked_text_with_title)
+
                 file_path = os.path.join(embedding_directory, chunk_title + '.npy')
 
                 if os.path.exists(file_path):
@@ -42,7 +46,7 @@ class Embeddings:
 
                     np.save(file_path, [embedding])
 
-        return embeddings
+        return embeddings, chunked_texts_with_titles
 
     def get_embeddings_query(self, texts: List[str]) -> List[np.ndarray]:
         embeddings = []

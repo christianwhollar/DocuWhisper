@@ -41,16 +41,16 @@ def get_embeddings(setup_environment, get_document_loader):
     titles, documents = get_document_loader
 
     embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
-    document_embeddings = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
+    document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
 
-    return documents, embeddings, document_embeddings
+    return embeddings, document_embeddings, chunked_texts_with_titles
 
 @pytest.fixture
 def get_vector_store(get_embeddings):
-    documents, embeddings, document_embeddings = get_embeddings
+    embeddings, document_embeddings, chunked_texts_with_titles = get_embeddings
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
-    vector_store.add_documents(documents, document_embeddings)
+    vector_store.add_documents(chunked_texts_with_titles, document_embeddings)
     return vector_store, embeddings
 
 @pytest.fixture

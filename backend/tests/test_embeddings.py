@@ -8,7 +8,7 @@ def test_get_embeddings(setup_environment, get_document_loader):
     titles, documents = get_document_loader
 
     embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
-    document_embeddings = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
+    document_embeddings, _ = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
 
     for title, embedding in zip(titles, document_embeddings):
         file_path = os.path.join("tests/test_data/test_embeddings", title.replace(' ', '_') + '_1.npy')
