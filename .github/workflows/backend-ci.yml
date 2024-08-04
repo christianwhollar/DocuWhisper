@@ -11,8 +11,8 @@ on:
           - 'backend/**'
 jobs:
     build:
-        runs-on: ubuntu-latest
         environment: development
+        runs-on: ubuntu-latest
 
         env:
           HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}

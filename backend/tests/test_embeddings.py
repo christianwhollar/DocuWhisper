@@ -21,7 +21,6 @@ def setup_environment():
     embedding_directory = os.path.join(document_directory, "embeddings")
 
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
-    
 
     if not huggingface_api_key:
         raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
