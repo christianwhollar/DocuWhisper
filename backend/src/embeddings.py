@@ -3,6 +3,10 @@ import numpy as np
 from transformers import AutoTokenizer, AutoModel
 import torch
 import os
+import nltk
+from nltk.tokenize import sent_tokenize
+
+nltk.download('punkt')
 
 class Embeddings:
     def __init__(self, model_id: str, HUGGINGFACE_API_KEY: str):
@@ -11,27 +15,32 @@ class Embeddings:
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model.to(self.device)
  
-    def get_embeddings(self, titles:List[str], texts: List[str], embedding_directory: str) -> List[np.ndarray]:
+    def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str) -> List[np.ndarray]:
         os.makedirs(embedding_directory, exist_ok=True)
         embeddings = []
 
         for title, text in zip(titles, texts):
-            file_path = os.path.join(embedding_directory, title.replace(' ', '_') + '.npy')
+            sentences = sent_tokenize(text)
+            chunked_texts = [' '.join(sentences[i:i + 3]) for i in range(0, len(sentences), 3)]
 
-            if os.path.exists(file_path):
-                embedding = np.load(file_path, allow_pickle=True).tolist()
-                embeddings.extend(embedding)
-            else:
-                inputs = self.tokenizer(text, return_tensors='pt', padding=True, truncation=True, max_length=512)
-                inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            for idx, chunk in enumerate(chunked_texts):
+                chunk_title = f"{title.replace(' ', '_')}_{idx + 1}"
+                file_path = os.path.join(embedding_directory, chunk_title + '.npy')
 
-                with torch.no_grad():
-                    outputs = self.model(**inputs)
+                if os.path.exists(file_path):
+                    embedding = np.load(file_path, allow_pickle=True).tolist()
+                    embeddings.extend(embedding)
+                else:
+                    inputs = self.tokenizer(chunk, return_tensors='pt', padding=True, truncation=True, max_length=512)
+                    inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
-                embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
-                embeddings.append(embedding.astype(np.float32))
-            
-                np.save(file_path, [embedding])
+                    with torch.no_grad():
+                        outputs = self.model(**inputs)
+
+                    embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
+                    embeddings.append(embedding.astype(np.float32))
+
+                    np.save(file_path, [embedding])
 
         return embeddings
 

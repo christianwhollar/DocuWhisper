@@ -13,9 +13,9 @@ from src.llm import LLM
 @pytest.fixture
 def setup_environment():
     load_dotenv()
-    
-    env = os.getenv('ENV')
 
+    env = os.getenv('ENV')
+    env = 'test'
     with open(f'config/config.{env}.toml', 'r') as file:
         config = toml.load(file)
 
