@@ -16,13 +16,14 @@ jobs:
         env:
           HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
           ENV: test
-          
-        run: |
-          echo "$HUGGINGFACE_API_KEY"
-          echo "$ENV"
 
         steps:
         - uses: actions/checkout@v4
+
+        - name: env test
+          run: |
+            echo "$HUGGINGFACE_API_KEY"
+            echo "$ENV"
 
         - name: Python
           uses: actions/setup-python@v5
