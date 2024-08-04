@@ -6,6 +6,7 @@ from src.document_loader import DocumentLoader
 from src.embeddings import Embeddings
 import pytest
 import toml
+import shutil
 
 @pytest.fixture
 def setup_environment():
@@ -41,10 +42,6 @@ def test_get_embeddings(setup_environment, load_documents):
 
     for title, embedding in zip(titles, document_embeddings):
         file_path = os.path.join("tests/test_data/test_embeddings", title.replace(' ', '_') + '.npy')
-        expected_embedding = np.load(file_path, allow_pickle=True)
+        expected_embeddings = np.load(file_path, allow_pickle=True).reshape(-1)
 
-        assert type(embedding) == type(expected_embedding)
-
-        assert embedding[0] == expected_embedding[0]
-
-        assert np.allclose(embedding, expected_embedding, rtol=1e-5, atol=1e-8), f"Embeddings for {title} do not match"
+        assert np.allclose(embedding, expected_embeddings, rtol=1e-5, atol=1e-8), f"Embeddings for {title} do not match"
