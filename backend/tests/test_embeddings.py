@@ -41,7 +41,7 @@ def test_get_embeddings(setup_environment, load_documents):
 
     for title, embedding in zip(titles, document_embeddings):
         file_path = os.path.join("tests/test_data/test_embeddings", title.replace(' ', '_') + '.npy')
-        expected_embedding = np.load(file_path, allow_pickle=True).tolist()[0]
+        expected_embedding = np.load(file_path, allow_pickle=True)
 
         assert type(embedding) == type(expected_embedding)
 
