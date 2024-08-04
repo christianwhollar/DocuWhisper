@@ -19,11 +19,9 @@ class Embeddings:
             file_path = os.path.join(embedding_directory, title.replace(' ', '_') + '.npy')
 
             if os.path.exists(file_path):
-                # load existing embeddings
                 embedding = np.load(file_path, allow_pickle=True).tolist()
                 embeddings.extend(embedding)
             else:
-                # generate new embeddings
                 inputs = self.tokenizer(text, return_tensors='pt', padding=True, truncation=True, max_length=512)
                 inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
