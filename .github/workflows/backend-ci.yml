@@ -14,14 +14,16 @@ jobs:
         runs-on: ubuntu-latest
 
         env:
-          HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+          HUGGINGFACE_API_KEY: 
           ENV: test
 
         steps:
         - uses: actions/checkout@v4
 
-        - name: env test
+        - name: ENV
           run: |
+            echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+            echo "ENV=test"  >> $GITHUB_ENV
             echo "$HUGGINGFACE_API_KEY"
             echo "$ENV"
 
