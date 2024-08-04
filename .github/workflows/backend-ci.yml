@@ -12,6 +12,7 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        environment: development
 
         env:
           HUGGINGFACE_API_KEY: 
@@ -19,13 +20,6 @@ jobs:
 
         steps:
         - uses: actions/checkout@v4
-
-        - name: ENV
-          run: |
-            echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
-            echo "ENV=test"  >> $GITHUB_ENV
-            echo "$HUGGINGFACE_API_KEY"
-            echo "$ENV"
 
         - name: Python
           uses: actions/setup-python@v5
@@ -40,9 +34,6 @@ jobs:
             pip install -r requirements.txt
 
         - name: Test
-          env:
-            HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
-            ENV: test
           run: |
             cd backend
             pytest
