@@ -10,9 +10,8 @@ import toml
 @pytest.fixture
 def setup_environment():
     load_dotenv()
-
     env = os.getenv('ENV')
-
+    
     with open(f'config/config.{env}.toml', 'r') as file:
         config = toml.load(file)
 
