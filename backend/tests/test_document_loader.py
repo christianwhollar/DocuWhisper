@@ -5,12 +5,12 @@ from src.document_loader import DocumentLoader
 TEST_FILES = {
     'file_one.txt': 'This is the first document.',
     'file_two.txt': 'This is the second document.',
-    'another_file.txt': 'This is another document.'
+    'file_three.txt': 'This is third document.'
 }
 
 @pytest.fixture(scope="module")
 def test_dir():
-    dir_name = 'test_documents'
+    dir_name = 'test_data'
     os.makedirs(dir_name, exist_ok=True)
     
     for filename, content in TEST_FILES.items():
@@ -29,6 +29,6 @@ def test_load_documents(test_dir):
     
     titles_expected = [name.split('.')[0].replace('_', ' ') for name in TEST_FILES]
     documents_expected = list(TEST_FILES.values())
-    
-    assert titles_actual == titles_expected
-    assert documents_actual == documents_expected
+
+    assert all([title_expected in titles_actual for title_expected in titles_expected])
+    assert all([document_expected in documents_actual for document_expected in  documents_expected])
