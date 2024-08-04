@@ -2,7 +2,7 @@
 id =  "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 
 [documents]
-directory = "data/test/"
+directory = "tests/test_data/"
 
 [llm]
 api_url = "http://localhost:8080/v1" 

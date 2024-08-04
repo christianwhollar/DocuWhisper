@@ -29,7 +29,9 @@ jobs:
             pip install -r requirements.txt
         
         - name: Set up HuggingFace API Key
-          run: echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+          run: |
+            echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
+            echo "ENV=test" >> $GITHUB_ENV
 
         - name: Run tests
           run: |
