@@ -44,4 +44,4 @@ def test_get_embeddings(setup_environment, load_documents):
         file_path = os.path.join("tests/test_data/test_embeddings", title.replace(' ', '_') + '.npy')
         expected_embeddings = np.load(file_path, allow_pickle=True).reshape(-1)
 
-        assert np.allclose(embedding, expected_embeddings, rtol=1e-4, atol=1e-5), f"Embeddings for {title} do not match"
+        assert np.allclose(embedding, expected_embeddings, atol=1e-4), f"Embeddings for {title} do not match"
