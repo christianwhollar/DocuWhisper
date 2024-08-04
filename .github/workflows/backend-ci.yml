@@ -31,7 +31,7 @@ jobs:
         - name: Env Config
           run: |
             export HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}
-            export env=test
+            export ENV=test
 
         - name: Test
           run: |
