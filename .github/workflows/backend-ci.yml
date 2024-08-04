@@ -16,24 +16,24 @@ jobs:
         steps:
         - uses: actions/checkout@v4
 
-        - name: Set up Python
+        - name: Python
           uses: actions/setup-python@v5
           with:
             python-version: '3.x'
         
-        - name: Install dependencies
+        - name: Install Dependencies
           run: |
             cd backend
             python -m pip install --upgrade pip
             sed -i 's/faiss-gpu/faiss-cpu/' requirements.txt
             pip install -r requirements.txt
         
-        - name: Set up HuggingFace API Key
+        - name: Env Config
           run: |
-            echo "HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}" >> $GITHUB_ENV
-            echo "ENV=test" >> $GITHUB_ENV
+            export HUGGINGFACE_API_KEY=${{ secrets.HUGGINGFACE_API_KEY }}
+            export env=test
 
-        - name: Run tests
+        - name: Test
           run: |
             cd backend
             pytest
