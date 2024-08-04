@@ -1,4 +1,4 @@
-faiss-gpu==1.7.2
+faiss-gpu
 openai==1.35.13
 python-dotenv==1.0.1
 toml==0.10.2
