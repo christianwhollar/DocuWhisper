@@ -40,6 +40,9 @@ jobs:
             pip install -r requirements.txt
 
         - name: Test
+          env:
+            HUGGINGFACE_API_KEY: ${{ secrets.HUGGINGFACE_API_KEY }}
+            ENV: test
           run: |
             cd backend
             pytest

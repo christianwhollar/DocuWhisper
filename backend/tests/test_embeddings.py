@@ -19,6 +19,7 @@ def setup_environment():
     model_id = config['model']['id']
     document_directory = config['documents']['directory']
     embedding_directory = os.path.join(document_directory, "embeddings")
+
     
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
 
