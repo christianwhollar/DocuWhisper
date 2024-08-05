@@ -5,10 +5,10 @@ import torch
 import os
 import nltk
 from nltk.tokenize import sent_tokenize
-import psycopg2
 from dotenv import load_dotenv
+import psycopg2
 
-nltk.download('punkt')  
+nltk.download('punkt')
 
 class Embeddings:
     def __init__(self, model_id: str, HUGGINGFACE_API_KEY: str, db_mode:bool=False):
@@ -30,11 +30,8 @@ class Embeddings:
             'port': os.getenv('DB_PORT')
         }
 
-    def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str, chunk_directory:str = "chunks") -> Tuple[List[np.ndarray], List[str]]:
+    def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str) -> Tuple[List[np.ndarray], List[str]]:
         os.makedirs(embedding_directory, exist_ok=True)
-        chunk_directory = f"{embedding_directory}/../{chunk_directory}"
-        os.makedirs(chunk_directory, exist_ok=True)
-        
         embeddings = []
         chunked_texts_with_titles = []
 
@@ -47,16 +44,10 @@ class Embeddings:
                 chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
                 chunked_texts_with_titles.append(chunked_text_with_title)
 
-                chunk_file_path = os.path.join(chunk_directory, chunk_title + '.txt')
+                file_path = os.path.join(embedding_directory, chunk_title + '.npy')
 
-                if not os.path.exists(chunk_file_path):
-                    with open(chunk_file_path, 'w', encoding='utf-8') as chunk_file:
-                        chunk_file.write(chunked_text_with_title)
-
-                embedding_file_path = os.path.join(embedding_directory, chunk_title + '.npy')
-
-                if os.path.exists(embedding_file_path):
-                    embedding = np.load(embedding_file_path, allow_pickle=True).tolist()
+                if os.path.exists(file_path):
+                    embedding = np.load(file_path, allow_pickle=True).tolist()
                     embeddings.extend(embedding)
                 else:
                     inputs = self.tokenizer(chunk, return_tensors='pt', padding=True, truncation=True, max_length=512)
@@ -68,10 +59,25 @@ class Embeddings:
                     embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
                     embeddings.append(embedding.astype(np.float32))
 
-                    np.save(embedding_file_path, [embedding])
+                    np.save(file_path, [embedding])
 
-            return embeddings, chunked_texts_with_titles
+        return embeddings, chunked_texts_with_titles
 
+    def get_embeddings_query(self, texts: List[str]) -> List[np.ndarray]:
+        embeddings = []
+
+        for text in texts:
+            inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
+            inputs = {k: v.to(self.device) for k, v in inputs.items()}
+            
+            with torch.no_grad():
+                outputs = self.model(**inputs)
+            
+            embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
+            embeddings.append(embedding.astype(np.float32))
+        
+        return embeddings
+    
     def get_chunk(self, title: str, chunk_text: str = None) -> List[Tuple[int, str]]:
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
@@ -87,7 +93,7 @@ class Embeddings:
         conn.close()
 
         return chunks
-
+    
     def get_embedding(self, chunk_id: int = None) -> List[np.ndarray]:
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
@@ -105,7 +111,6 @@ class Embeddings:
         np_embeddings = [np.frombuffer(embedding[0], dtype=np.float32) for embedding in embeddings]
 
         return np_embeddings
-
     
     def get_embeddings_db(self, titles: List[str], texts: List[str]) -> Tuple[List[np.ndarray], List[str]]:
         embeddings = []
@@ -157,19 +162,3 @@ class Embeddings:
                     conn.close()
 
         return embeddings, chunked_texts_with_titles
-
-    def get_embeddings_query(self, texts: List[str]) -> List[np.ndarray]:
-        embeddings = []
-
-        for text in texts:
-            inputs = self.tokenizer(text, return_tensors="pt", padding=True, truncation=True, max_length=512)
-            inputs = {k: v.to(self.device) for k, v in inputs.items()}
-            
-            with torch.no_grad():
-                outputs = self.model(**inputs)
-            
-            embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
-            embeddings.append(embedding.astype(np.float32))
-        
-        return embeddings
-    
