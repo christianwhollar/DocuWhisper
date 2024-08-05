@@ -1,6 +1,7 @@
 # tests/test_retriever.py
 from src.retriever import Retriever
 
+
 def test_retrieve(get_vector_store):
     vector_store, embeddings = get_vector_store
 

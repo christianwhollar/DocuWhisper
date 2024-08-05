@@ -10,3 +10,4 @@ uvicorn
 pydantic
 pytest
 nltk
+psycopg2-binary==2.9.9

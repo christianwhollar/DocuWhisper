@@ -9,17 +9,18 @@ from src.retriever import Retriever
 from src.llm import LLM
 from src.rag_agent import RAGAgent
 
+
 def main():
     # load env vars
     load_dotenv()
-    
-    env = os.getenv('ENV')
+
+    env = os.getenv("ENV")
 
     # load config vars
-    with open(f'config/config.{env}.toml', 'r') as file:
+    with open(f"config/config.{env}.toml", "r") as file:
         config = toml.load(file)
 
-    model_id = config['model']['id']
+    model_id = config["model"]["id"]
 
     # directory to load documents from
     document_directory = "data/test"
@@ -35,30 +36,34 @@ def main():
     embedding_directory = document_directory + "/embeddings"
 
     # generate or load embeddings
-    embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
-    document_embeddings = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
+    embeddings = Embeddings(
+        model_id=model_id,
+        HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
+    document_embeddings = embeddings.get_embeddings(
+        titles, documents, embedding_directory=embedding_directory
+    )
 
     # vector storage
     embedding_dimension = len(document_embeddings[0])
-    vector_store = VectorStore(dimension = embedding_dimension)
+    vector_store = VectorStore(dimension=embedding_dimension)
     vector_store.add_documents(documents, document_embeddings)
 
     # retriever and llm
     retriever = Retriever(vector_store, embeddings)
     llm = LLM("http://localhost:8080/v1")
 
-    # rag agent 
+    # rag agent
     rag_agent = RAGAgent(retriever=retriever, llm=llm)
 
     while True:
         query = input("Query:")
 
-        if query.lower() == 'exit':
+        if query.lower() == "exit":
             break
 
         answer = rag_agent.answer(query)
         print(answer)
 
-    
+
 if __name__ == "__main__":
     main()

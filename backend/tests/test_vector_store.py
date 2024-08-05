@@ -1,8 +1,9 @@
 # tests/test_vector_store.py
 from src.vector_store import VectorStore
 
+
 def test_vector_store(get_embeddings):
-    embeddings, document_embeddings, chunked_texts_with_titles  = get_embeddings
+    embeddings, document_embeddings, chunked_texts_with_titles = get_embeddings
 
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)

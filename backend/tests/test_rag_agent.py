@@ -1,6 +1,7 @@
 # tests/test_rag_agent.py
 from src.rag_agent import RAGAgent
 
+
 def test_rag_agent(get_retriever, get_llm):
     retriever = get_retriever
     llm = get_llm
