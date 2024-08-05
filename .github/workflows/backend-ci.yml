@@ -19,9 +19,6 @@ jobs:
           ENV: test
 
         steps:
-        - name: Installs
-          run: sudo apt-get install libpq-dev
-        
         - uses: actions/checkout@v4
 
         - name: Python
