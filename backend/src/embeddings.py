@@ -1,8 +1,8 @@
 from typing import List, Tuple
+import os
 import numpy as np
 from transformers import AutoTokenizer, AutoModel
 import torch
-import os
 import nltk
 from nltk.tokenize import sent_tokenize
 from dotenv import load_dotenv
@@ -11,7 +11,12 @@ import psycopg2
 nltk.download('punkt')
 
 class Embeddings:
+    """_summary_
+    """
     def __init__(self, model_id: str, HUGGINGFACE_API_KEY: str, db_mode:bool=False):
+        """
+        Embeddings Class Initialization
+        """
         self.tokenizer = AutoTokenizer.from_pretrained(model_id, token=HUGGINGFACE_API_KEY)
         self.model = AutoModel.from_pretrained(model_id, token=HUGGINGFACE_API_KEY)
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -19,8 +24,11 @@ class Embeddings:
 
         if db_mode:
             self.db_config = self.load_db_config()
-    
+
     def load_db_config(self):
+        """
+        Load Database Config
+        """
         load_dotenv()
         return {
             'dbname': os.getenv('DB_NAME'),
@@ -31,6 +39,16 @@ class Embeddings:
         }
 
     def get_embeddings(self, titles: List[str], texts: List[str], embedding_directory: str) -> Tuple[List[np.ndarray], List[str]]:
+        """Generate Embeddings
+
+        Args:
+            titles (List[str]): List of titles for documents.
+            texts (List[str]): List of texts for documents.
+            embedding_directory (str): Save directory for generated embeddings.
+
+        Returns:
+            Tuple[List[np.ndarray], List[str]]: Returns generated embeddings and text chunks.
+        """
         os.makedirs(embedding_directory, exist_ok=True)
         embeddings = []
         chunked_texts_with_titles = []
@@ -64,6 +82,14 @@ class Embeddings:
         return embeddings, chunked_texts_with_titles
 
     def get_embeddings_query(self, texts: List[str]) -> List[np.ndarray]:
+        """_summary_
+
+        Args:
+            texts (List[str]): _description_
+
+        Returns:
+            List[np.ndarray]: _description_
+        """
         embeddings = []
 
         for text in texts:
@@ -79,6 +105,15 @@ class Embeddings:
         return embeddings
     
     def get_chunk(self, title: str, chunk_text: str = None) -> List[Tuple[int, str]]:
+        """_summary_
+
+        Args:
+            title (str): _description_
+            chunk_text (str, optional): _description_. Defaults to None.
+
+        Returns:
+            List[Tuple[int, str]]: _description_
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
@@ -95,6 +130,14 @@ class Embeddings:
         return chunks
     
     def get_embedding(self, chunk_id: int = None) -> List[np.ndarray]:
+        """_summary_
+
+        Args:
+            chunk_id (int, optional): _description_. Defaults to None.
+
+        Returns:
+            List[np.ndarray]: _description_
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
@@ -121,7 +164,6 @@ class Embeddings:
             chunked_texts = [' '.join(sentences[i:i + 3]) for i in range(0, len(sentences), 3)]
 
             for idx, chunk in enumerate(chunked_texts):
-                chunk_title = f"{title.replace(' ', '_')}_{idx + 1}"
                 chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
                 chunked_texts_with_titles.append(chunked_text_with_title)
 
