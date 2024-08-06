@@ -37,3 +37,11 @@ jobs:
           run: |
             cd backend
             pytest -s
+
+        - name: Run flake8
+          run: |
+            flake8 .
+
+        - name: Run black
+          run: |
+            black --check .

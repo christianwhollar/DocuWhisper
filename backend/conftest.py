@@ -73,6 +73,14 @@ def get_vector_store(get_embeddings):
 
 @pytest.fixture
 def get_retriever(get_vector_store):
+    """_summary_
+
+    Args:
+        get_vector_store (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     vector_store, embeddings = get_vector_store
     retriever = Retriever(vector_store, embeddings)
     return retriever
