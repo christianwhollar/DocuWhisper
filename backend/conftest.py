@@ -1,14 +1,15 @@
 # conftest.py
-import pytest
-from dotenv import load_dotenv
-import toml
 import os
+
 import pytest
+import toml
+from dotenv import load_dotenv
+
 from src.document_loader import DocumentLoader
 from src.embeddings import Embeddings
-from src.vector_store import VectorStore
-from src.retriever import Retriever
 from src.llm import LLM
+from src.retriever import Retriever
+from src.vector_store import VectorStore
 
 
 @pytest.fixture
@@ -27,9 +28,15 @@ def setup_environment():
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
     if not huggingface_api_key:
         raise ValueError(
-            "HUGGINGFACE_API_KEY not found in environment variables")
+            "HUGGINGFACE_API_KEY not found in environment variables"
+            )
 
-    return model_id, document_directory, embedding_directory, huggingface_api_key
+    return (
+        model_id,
+        document_directory,
+        embedding_directory,
+        huggingface_api_key
+    )
 
 
 @pytest.fixture
@@ -46,7 +53,8 @@ def get_embeddings(setup_environment, get_document_loader):
 
     embeddings = Embeddings(
         model_id=model_id,
-        HUGGINGFACE_API_KEY=huggingface_api_key)
+        HUGGINGFACE_API_KEY=huggingface_api_key
+        )
     document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )
@@ -95,6 +103,8 @@ def get_llm():
     """
     return LLM(base_url="http://test.com")
 
-@pytest.fixture(scope='session', autouse=True)
+
+@pytest.fixture(scope="session", autouse=True)
 def mock_psycopg2():
     from tests.utils import mock_psycogp2
+    mock_psycogp2

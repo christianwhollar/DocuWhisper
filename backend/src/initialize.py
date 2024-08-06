@@ -1,13 +1,15 @@
 # src/initialize.py
 import os
+
 import toml
 from dotenv import load_dotenv
+
 from .document_loader import DocumentLoader
 from .embeddings import Embeddings
-from .vector_store import VectorStore
-from .retriever import Retriever
 from .llm import LLM
 from .rag_agent import RAGAgent
+from .retriever import Retriever
+from .vector_store import VectorStore
 
 
 def initialize_rag_agent():
@@ -31,11 +33,14 @@ def initialize_rag_agent():
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
     if not huggingface_api_key:
         raise ValueError(
-            "HUGGINGFACE_API_KEY not found in environment variables")
+            "HUGGINGFACE_API_KEY not found in environment variables"
+            )
 
     embeddings = Embeddings(
         model_id=model_id,
-        HUGGINGFACE_API_KEY=huggingface_api_key)
+        HUGGINGFACE_API_KEY=huggingface_api_key
+        )
+
     document_embeddings = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )

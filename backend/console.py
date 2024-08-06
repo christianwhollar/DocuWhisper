@@ -1,13 +1,14 @@
 import os
+
 import toml
 from dotenv import load_dotenv
 
 from src.document_loader import DocumentLoader
 from src.embeddings import Embeddings
-from src.vector_store import VectorStore
-from src.retriever import Retriever
 from src.llm import LLM
 from src.rag_agent import RAGAgent
+from src.retriever import Retriever
+from src.vector_store import VectorStore
 
 
 def main():
@@ -38,7 +39,9 @@ def main():
     # generate or load embeddings
     embeddings = Embeddings(
         model_id=model_id,
-        HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
+        HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY
+        )
+
     document_embeddings = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )

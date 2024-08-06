@@ -1,6 +1,7 @@
 from typing import List
-from .vector_store import VectorStore
+
 from .embeddings import Embeddings
+from .vector_store import VectorStore
 
 
 class Retriever:

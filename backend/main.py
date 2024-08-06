@@ -2,6 +2,7 @@
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+
 from src.initialize import initialize_rag_agent
 
 app = FastAPI()

@@ -1,6 +1,8 @@
 # tests/test_document_loader.py
-import pytest
 import os
+
+import pytest
+
 from src.document_loader import DocumentLoader
 
 TEST_FILES = {
@@ -30,7 +32,11 @@ def test_load_documents(test_dir):
     loader = DocumentLoader(test_dir)
     titles_actual, documents_actual = loader.load_documents()
 
-    titles_expected = [name.split(".")[0].replace("_", " ") for name in TEST_FILES]
+    titles_expected = [
+        name.split(".")[0].replace("_", " ")
+        for name in TEST_FILES
+        ]
+
     documents_expected = list(TEST_FILES.values())
 
     assert set(titles_actual) == set(titles_expected)

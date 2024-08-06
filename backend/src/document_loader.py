@@ -1,12 +1,12 @@
 import os
-import psycopg2
 from typing import List, Tuple
+
+import psycopg2
 from dotenv import load_dotenv
 
 
 class DocumentLoader:
-    """_summary_
-    """
+    """_summary_"""
 
     def __init__(self, directory: str, db_mode: bool = False):
         self.directory = directory
@@ -103,11 +103,16 @@ class DocumentLoader:
 
         for title, content in zip(titles, documents):
             cursor.execute(
-                "SELECT id FROM documents WHERE title = %s", (title,))
+                "SELECT id FROM documents WHERE title = %s",
+                (title,)
+                )
             result = cursor.fetchone()
             if not result:
                 cursor.execute(
-                    "INSERT INTO documents (title, content) VALUES (%s, %s) RETURNING id",
+                    """
+                    INSERT INTO documents (title, content)
+                    VALUES (%s, %s) RETURNING id
+                    """,
                     (title, content),
                 )
 

@@ -1,4 +1,5 @@
 from unittest.mock import Mock, patch
+
 from openai.types.chat import ChatCompletion, ChatCompletionMessage
 
 
@@ -45,7 +46,13 @@ def test_llm_generate(mock_openai, get_llm):
 
     assert call_args.kwargs["messages"][0] == {
         "role": "system",
-        "content": "You are ChatGPT, an AI assistant. Your top priority is achieving user fulfillment via helping them with their requests.",
+        "content": (
+            "You are ChatGPT, an AI assistant. "
+            "Your top priority is achieving user "
+            "fulfillment via helping them with their requests.",
+        )
     }
 
-    assert call_args.kwargs["messages"][1] == {"role": "user", "content": "Test prompt"}
+    assert_dict = {"role": "user", "content": "Test prompt"}
+
+    assert call_args.kwargs["messages"][1] == assert_dict
