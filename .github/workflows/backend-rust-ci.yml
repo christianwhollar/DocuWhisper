@@ -1,0 +1,53 @@
+name: Backend Rust CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+
+    - name: Cache cargo registry
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.cargo/registry
+          ~/.cargo/git
+        key: ${{ runner.os }}-cargo-registry-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-cargo-registry-
+
+    - name: Cache cargo build
+      uses: actions/cache@v2
+      with:
+        path: backend/utils/target
+        key: ${{ runner.os }}-cargo-build-${{ hashFiles('backend/utils/Cargo.lock') }}
+        restore-keys: ${{ runner.os }}-cargo-build-
+
+    - name: Build
+      working-directory: ./backend/utils
+      run: cargo build --release
+
+    - name: Run tests
+      working-directory: ./backend/utils
+      run: cargo test --release
+
+    - name: Create binary release
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      run: |
+        mkdir -p dist
+        cp backend/utils/target/release/your_binary_name dist/
+      shell: bash

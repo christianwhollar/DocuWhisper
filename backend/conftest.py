@@ -88,6 +88,11 @@ def get_retriever(get_vector_store):
 
 @pytest.fixture
 def get_llm():
+    """_summary_
+
+    Returns:
+        _type_: _description_
+    """
     return LLM(base_url="http://test.com")
 
 @pytest.fixture(scope='session', autouse=True)

@@ -1,4 +1,4 @@
-name: Backend CI
+name: Backend Python CI
 
 on:
     push:
@@ -40,8 +40,10 @@ jobs:
 
         - name: Run flake8
           run: |
+            cd backend
             flake8 .
 
         - name: Run black
           run: |
+            cd backend
             black --check .
