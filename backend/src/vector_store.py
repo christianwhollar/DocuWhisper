@@ -9,10 +9,7 @@ class VectorStore:
         self.index = faiss.IndexFlatL2(dimension)
         self.documents = []
 
-    def add_documents(self,
-                      documents: List[str],
-                      embeddings: List[np.ndarray]
-                      ):
+    def add_documents(self, documents: List[str], embeddings: List[np.ndarray]):
 
         embeddings_array = np.array(embeddings, dtype=np.float32)
 
@@ -25,9 +22,6 @@ class VectorStore:
     def search(self, query_embedding: np.ndarray, k: int) -> List[str]:
         query_embedding = query_embedding.astype(np.float32).reshape(1, -1)
 
-        distances, indices = self.index.search(
-            query_embedding.reshape(1, -1),
-            k
-            )
+        distances, indices = self.index.search(query_embedding.reshape(1, -1), k)
 
         return [self.documents[i] for i in indices[0]]

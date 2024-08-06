@@ -15,12 +15,7 @@ nltk.download("punkt")
 class Embeddings:
     """_summary_"""
 
-    def __init__(
-            self,
-            model_id: str,
-            HUGGINGFACE_API_KEY: str,
-            db_mode: bool = False
-            ):
+    def __init__(self, model_id: str, HUGGINGFACE_API_KEY: str, db_mode: bool = False):
         """
         Embeddings Class Initialization
         """
@@ -28,14 +23,9 @@ class Embeddings:
             model_id, token=HUGGINGFACE_API_KEY
         )
 
-        self.model = AutoModel.from_pretrained(
-            model_id,
-            token=HUGGINGFACE_API_KEY
-            )
+        self.model = AutoModel.from_pretrained(model_id, token=HUGGINGFACE_API_KEY)
 
-        self.device = torch.device(
-            "cuda" if torch.cuda.is_available() else "cpu"
-            )
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         self.model.to(self.device)
 
@@ -78,19 +68,16 @@ class Embeddings:
 
         for title, text in zip(titles, texts):
             sentences = sent_tokenize(text)
-            chunked_texts = [" ".join(sentences[i: i + 3])
-                             for i in range(0, len(sentences), 3)
-                             ]
+            chunked_texts = [
+                " ".join(sentences[i : i + 3]) for i in range(0, len(sentences), 3)
+            ]
 
             for idx, chunk in enumerate(chunked_texts):
                 chunk_title = f"{title.replace(' ', '_')}_{idx + 1}"
                 chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
                 chunked_texts_with_titles.append(chunked_text_with_title)
 
-                file_path = os.path.join(
-                    embedding_directory,
-                    chunk_title + ".npy"
-                    )
+                file_path = os.path.join(embedding_directory, chunk_title + ".npy")
 
                 if os.path.exists(file_path):
                     embedding = np.load(file_path, allow_pickle=True).tolist()
@@ -133,11 +120,7 @@ class Embeddings:
 
         for text in texts:
             inputs = self.tokenizer(
-                text,
-                return_tensors="pt",
-                padding=True,
-                truncation=True,
-                max_length=512
+                text, return_tensors="pt", padding=True, truncation=True, max_length=512
             )
 
             inputs = {k: v.to(self.device) for k, v in inputs.items()}
@@ -150,11 +133,7 @@ class Embeddings:
 
         return embeddings
 
-    def get_chunk(
-            self,
-            title: str,
-            chunk_text: str = None
-            ) -> List[Tuple[int, str]]:
+    def get_chunk(self, title: str, chunk_text: str = None) -> List[Tuple[int, str]]:
         """_summary_
 
         Args:
@@ -210,7 +189,7 @@ class Embeddings:
                 SELECT embedding FROM embeddings WHERE
                 chunk_id = %s
                 """,
-                (chunk_id,)
+                (chunk_id,),
             )
 
         else:
@@ -222,19 +201,13 @@ class Embeddings:
         conn.close()
 
         np_embeddings = [
-            np.frombuffer(
-                embedding[0],
-                dtype=np.float32
-                )
-            for embedding in embeddings
+            np.frombuffer(embedding[0], dtype=np.float32) for embedding in embeddings
         ]
 
         return np_embeddings
 
     def get_embeddings_db(
-        self,
-        titles: List[str],
-        texts: List[str]
+        self, titles: List[str], texts: List[str]
     ) -> Tuple[List[np.ndarray], List[str]]:
         embeddings = []
         chunked_texts_with_titles = []
@@ -242,10 +215,7 @@ class Embeddings:
         for title, text in zip(titles, texts):
             sentences = sent_tokenize(text)
             chunked_texts = [
-                " ".join(
-                    sentences[i: i + 3]
-                    )
-                for i in range(0, len(sentences), 3)
+                " ".join(sentences[i : i + 3]) for i in range(0, len(sentences), 3)
             ]
 
             for idx, chunk in enumerate(chunked_texts):
@@ -275,10 +245,7 @@ class Embeddings:
                 embedding_result = self.get_embedding(chunk_id)
 
                 if embedding_result:
-                    embedding = np.frombuffer(
-                        embedding_result[0][1],
-                        dtype=np.float32
-                        )
+                    embedding = np.frombuffer(embedding_result[0][1], dtype=np.float32)
 
                     embeddings.append(embedding)
                 else:
@@ -294,12 +261,7 @@ class Embeddings:
                     with torch.no_grad():
                         outputs = self.model(**inputs)
 
-                    embedding = (
-                        outputs.last_hidden_state
-                        .mean(dim=1)
-                        .cpu()
-                        .numpy()[0]
-                        )
+                    embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
 
                     embeddings.append(embedding.astype(np.float32))
 

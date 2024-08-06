@@ -27,16 +27,9 @@ def setup_environment():
 
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
     if not huggingface_api_key:
-        raise ValueError(
-            "HUGGINGFACE_API_KEY not found in environment variables"
-            )
+        raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
 
-    return (
-        model_id,
-        document_directory,
-        embedding_directory,
-        huggingface_api_key
-    )
+    return (model_id, document_directory, embedding_directory, huggingface_api_key)
 
 
 @pytest.fixture
@@ -51,10 +44,7 @@ def get_embeddings(setup_environment, get_document_loader):
     model_id, _, embedding_directory, huggingface_api_key = setup_environment
     titles, documents = get_document_loader
 
-    embeddings = Embeddings(
-        model_id=model_id,
-        HUGGINGFACE_API_KEY=huggingface_api_key
-        )
+    embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
     document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )
@@ -107,4 +97,5 @@ def get_llm():
 @pytest.fixture(scope="session", autouse=True)
 def mock_psycopg2():
     from tests.utils import mock_psycogp2
+
     mock_psycogp2

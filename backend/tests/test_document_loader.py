@@ -32,10 +32,7 @@ def test_load_documents(test_dir):
     loader = DocumentLoader(test_dir)
     titles_actual, documents_actual = loader.load_documents()
 
-    titles_expected = [
-        name.split(".")[0].replace("_", " ")
-        for name in TEST_FILES
-        ]
+    titles_expected = [name.split(".")[0].replace("_", " ") for name in TEST_FILES]
 
     documents_expected = list(TEST_FILES.values())
 

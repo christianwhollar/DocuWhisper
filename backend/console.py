@@ -37,10 +37,7 @@ def main():
     embedding_directory = document_directory + "/embeddings"
 
     # generate or load embeddings
-    embeddings = Embeddings(
-        model_id=model_id,
-        HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY
-        )
+    embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
 
     document_embeddings = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory

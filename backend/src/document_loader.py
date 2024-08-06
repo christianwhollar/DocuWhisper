@@ -102,10 +102,7 @@ class DocumentLoader:
         cursor = conn.cursor()
 
         for title, content in zip(titles, documents):
-            cursor.execute(
-                "SELECT id FROM documents WHERE title = %s",
-                (title,)
-                )
+            cursor.execute("SELECT id FROM documents WHERE title = %s", (title,))
             result = cursor.fetchone()
             if not result:
                 cursor.execute(

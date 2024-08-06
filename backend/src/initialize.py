@@ -32,14 +32,9 @@ def initialize_rag_agent():
 
     huggingface_api_key = os.getenv("HUGGINGFACE_API_KEY")
     if not huggingface_api_key:
-        raise ValueError(
-            "HUGGINGFACE_API_KEY not found in environment variables"
-            )
+        raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
 
-    embeddings = Embeddings(
-        model_id=model_id,
-        HUGGINGFACE_API_KEY=huggingface_api_key
-        )
+    embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
 
     document_embeddings = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory

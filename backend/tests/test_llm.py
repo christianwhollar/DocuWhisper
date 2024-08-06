@@ -50,7 +50,7 @@ def test_llm_generate(mock_openai, get_llm):
             "You are ChatGPT, an AI assistant. "
             "Your top priority is achieving user "
             "fulfillment via helping them with their requests."
-        )
+        ),
     }
 
     assert_dict = {"role": "user", "content": "Test prompt"}
