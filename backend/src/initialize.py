@@ -36,13 +36,13 @@ def initialize_rag_agent():
 
     embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
 
-    document_embeddings = embeddings.get_embeddings(
+    document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )
 
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
-    vector_store.add_documents(documents, document_embeddings)
+    vector_store.add_documents(chunked_texts_with_titles, document_embeddings)
 
     retriever = Retriever(vector_store, embeddings)
     llm = LLM(config["llm"]["api_url"])

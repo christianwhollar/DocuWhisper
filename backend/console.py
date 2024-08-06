@@ -39,18 +39,18 @@ def main():
     # generate or load embeddings
     embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=HUGGINGFACE_API_KEY)
 
-    document_embeddings = embeddings.get_embeddings(
+    document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(
         titles, documents, embedding_directory=embedding_directory
     )
 
     # vector storage
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
-    vector_store.add_documents(documents, document_embeddings)
+    vector_store.add_documents(chunked_texts_with_titles, document_embeddings)
 
     # retriever and llm
     retriever = Retriever(vector_store, embeddings)
-    llm = LLM("http://localhost:8080/v1")
+    llm = LLM(config['llm']['api_url'])
 
     # rag agent
     rag_agent = RAGAgent(retriever=retriever, llm=llm)
