@@ -30,8 +30,8 @@ jobs:
           run: |
             cd backend
             python -m pip install --upgrade pip
-            sed -i 's/faiss-gpu/faiss-cpu/' requirements.txt
-            pip install -r requirements.txt
+            sed -i 's/faiss-gpu/faiss-cpu/' ../requirements.txt
+            pip install -r ../requirements.txt
         
         - name: Test
           run: |

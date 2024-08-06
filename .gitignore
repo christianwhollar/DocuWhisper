@@ -1,0 +1,29 @@
+# Environment files
+backend/.env
+
+# Test data
+backend/data/test/*.txt
+backend/data/test/embeddings/
+backend/data/test/chunks/
+backend/tests/test_data/embeddings/
+backend/tests/test_data/chunks/
+
+# Python bytecode files
+*.pyc
+
+# Log files
+backend/models/*.log
+
+# Model files
+backend/models/*.llamafile
+
+# Virtual environments
+testmancervenv/
+frontend/frontendvenv/
+backend/backendvenv/
+
+# Cache directories
+backend/__pycache__/
+backend/.pytest_cache/
+frontend/__pycache__/
+frontend/.pytest_cache/

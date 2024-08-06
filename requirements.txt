@@ -13,3 +13,5 @@ nltk
 psycopg2-binary==2.9.9
 black
 flake8
+streamlit
+requests-mock

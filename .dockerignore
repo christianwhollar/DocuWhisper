@@ -1,0 +1,47 @@
+# Ignore environment files
+backend/.env
+
+# Ignore specific text files in the test directory
+backend/data/test/*.txt
+
+# Ignore embeddings and chunks directories in the test data
+backend/data/test/embeddings/
+backend/data/test/chunks/
+backend/tests/test_data/embeddings/
+backend/tests/test_data/chunks/
+
+# Ignore Python bytecode files
+*.pyc
+
+# Ignore log files and specific model files
+backend/models/*.log
+backend/models/*.llamafile
+
+# Ignore local virtual environment
+testmancervenv/
+frontend/frontendvenv/
+backend/backendvenv/
+
+# Rust Utilities
+backend/utils
+
+# Git repository files
+.git
+.gitignore
+
+
+# Additional common Docker ignores
+*.log
+__pycache__/
+*.py[cod]
+*.swp
+*~
+.idea/
+.vscode/
+.env
+*.bak
+*.tmp
+.DS_Store
+node_modules/
+dist/
+build/

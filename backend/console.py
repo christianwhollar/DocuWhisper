@@ -50,7 +50,7 @@ def main():
 
     # retriever and llm
     retriever = Retriever(vector_store, embeddings)
-    llm = LLM(config['llm']['api_url'])
+    llm = LLM(config["llm"]["api_url"])
 
     # rag agent
     rag_agent = RAGAgent(retriever=retriever, llm=llm)

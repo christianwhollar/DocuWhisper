@@ -1,0 +1,7 @@
+[tool.black]
+exclude = '''
+/(
+    frontend/frontendvenv
+    | backend/backendvenv
+)/
+'''
