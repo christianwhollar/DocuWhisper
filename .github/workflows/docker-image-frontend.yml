@@ -22,12 +22,6 @@ jobs:
                 username: ${{ secrets.DOCKERHUB_USERNAME }}
                 password: ${{ secrets.DOCKERHUB_TOKEN }}
                 
-            - name: Build and push Backend Docker image
-              run: |
-                IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/backend:$(date +%s)
-                docker build . --file Dockerfile.backend --tag $IMAGE_TAG
-                docker push $IMAGE_TAG
-                
             - name: Build and push Frontend Docker image
               run: |
                 IMAGE_TAG=${{ secrets.DOCKERHUB_USERNAME }}/frontend:$(date +%s)
