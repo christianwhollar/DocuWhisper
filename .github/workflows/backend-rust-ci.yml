@@ -49,5 +49,5 @@ jobs:
       if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: |
         mkdir -p dist
-        cp backend/utils/target/release/your_binary_name dist/
+        cp backend/utils/target/release/file_download_utility dist/
       shell: bash
