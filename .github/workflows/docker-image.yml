@@ -24,12 +24,12 @@ jobs:
                 
             - name: Build and push Backend Docker image
               run: |
-                IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/backend:$(date +%s)
-                docker build . -f Dockerfile.backend -t $IMAGE_TAG
+                IMAGE_TAG=testmancer/backend:$(date +%s)
+                docker build . --file Dockerfile.backend --tag $IMAGE_TAG
                 docker push $IMAGE_TAG
                 
             - name: Build and push Frontend Docker image
               run: |
-                IMAGE_TAG=${{ secrets.DOCKER_USERNAME }}/frontend:$(date +%s)
-                docker build . -f Dockerfile.frontend -t $IMAGE_TAG
+                IMAGE_TAG=testmancer/frontend:$(date +%s)
+                docker build . --file Dockerfile.frontend --tag $IMAGE_TAG
                 docker push $IMAGE_TAG
