@@ -56,6 +56,14 @@ def get_embeddings(setup_environment, get_document_loader):
 
 @pytest.fixture
 def get_vector_store(get_embeddings):
+    """_summary_
+
+    Args:
+        get_embeddings (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     embeddings, document_embeddings, chunked_texts_with_titles = get_embeddings
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
