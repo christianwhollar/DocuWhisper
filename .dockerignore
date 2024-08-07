@@ -18,7 +18,6 @@ backend/models/*.log
 backend/models/*.llamafile
 
 # Ignore local virtual environment
-testmancervenv/
 frontend/frontendvenv/
 backend/backendvenv/
 

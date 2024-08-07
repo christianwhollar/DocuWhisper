@@ -1,11 +1,11 @@
 # DocuWhisper
 *Christian Hollar (christian.hollar@duke.edu)*
 
-[![Backend Python CI](https://github.com/christianwhollar/testmancer/actions/workflows/backend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/backend-py-ci.yml)
-[![Backend Rust CI](https://github.com/christianwhollar/testmancer/actions/workflows/backend-rust-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/backend-rust-ci.yml)
-[![Frontend Python CI](https://github.com/christianwhollar/testmancer/actions/workflows/frontend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/frontend-py-ci.yml)
-[![Docker Image Backend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml)
-[![Docker Image Frontend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml)
+[![Backend Python CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-py-ci.yml)
+[![Backend Rust CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-rust-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-rust-ci.yml)
+[![Frontend Python CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/frontend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/frontend-py-ci.yml)
+[![Docker Image Backend](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-backend.yml)
+[![Docker Image Frontend](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-frontend.yml)
 
 ## Table of Contents
 - [Project Purpose](#project-purpose)
