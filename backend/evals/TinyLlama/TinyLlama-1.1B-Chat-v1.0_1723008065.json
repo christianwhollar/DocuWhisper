@@ -1,0 +1,128 @@
+[
+    {
+        "query": "What is the main theme of the book Dracula?",
+        "prompt_tokens": 26,
+        "response_tokens": 87,
+        "time_taken": 13.445130109786987,
+        "output_speed": 6.470744372839569,
+        "average_latency": 13.445130109786987
+    },
+    {
+        "query": "Describe the character of Count Dracula.",
+        "prompt_tokens": 23,
+        "response_tokens": 102,
+        "time_taken": 12.152464866638184,
+        "output_speed": 8.393358970328539,
+        "average_latency": 12.152464866638184
+    },
+    {
+        "query": "What are the major settings in the book Dracula?",
+        "prompt_tokens": 26,
+        "response_tokens": 177,
+        "time_taken": 23.493556261062622,
+        "output_speed": 7.533980723614562,
+        "average_latency": 23.493556261062622
+    },
+    {
+        "query": "What are the significant symbols used in Dracula?",
+        "prompt_tokens": 25,
+        "response_tokens": 358,
+        "time_taken": 44.64589333534241,
+        "output_speed": 8.018654645590917,
+        "average_latency": 44.64589333534241
+    },
+    {
+        "query": "How does the author use foreshadowing in Dracula?",
+        "prompt_tokens": 25,
+        "response_tokens": 380,
+        "time_taken": 50.68878412246704,
+        "output_speed": 7.496727463059638,
+        "average_latency": 50.68878412246704
+    },
+    {
+        "query": "What is the role of Mina Harker in Dracula?",
+        "prompt_tokens": 26,
+        "response_tokens": 183,
+        "time_taken": 25.882091283798218,
+        "output_speed": 7.070526024863962,
+        "average_latency": 25.882091283798218
+    },
+    {
+        "query": "How does Bram Stoker create suspense in Dracula?",
+        "prompt_tokens": 25,
+        "response_tokens": 295,
+        "time_taken": 42.340943574905396,
+        "output_speed": 6.967251437798387,
+        "average_latency": 42.340943574905396
+    },
+    {
+        "query": "What is the significance of blood in Dracula?",
+        "prompt_tokens": 25,
+        "response_tokens": 199,
+        "time_taken": 33.95636606216431,
+        "output_speed": 5.860462207165762,
+        "average_latency": 33.95636606216431
+    },
+    {
+        "query": "How does the setting influence the mood in Dracula?",
+        "prompt_tokens": 26,
+        "response_tokens": 182,
+        "time_taken": 25.478567361831665,
+        "output_speed": 7.143258779637912,
+        "average_latency": 25.478567361831665
+    },
+    {
+        "query": "What are the Gothic elements in Dracula?",
+        "prompt_tokens": 24,
+        "response_tokens": 259,
+        "time_taken": 38.67577767372131,
+        "output_speed": 6.696697922534094,
+        "average_latency": 38.67577767372131
+    },
+    {
+        "average_latency_sec": 31.075957465171815,
+        "output_speed_tokens_sec": 7.165166254743335,
+        "response_time_vs_query_length": [
+            [
+                13.445130109786987,
+                26
+            ],
+            [
+                12.152464866638184,
+                23
+            ],
+            [
+                23.493556261062622,
+                26
+            ],
+            [
+                44.64589333534241,
+                25
+            ],
+            [
+                50.68878412246704,
+                25
+            ],
+            [
+                25.882091283798218,
+                26
+            ],
+            [
+                42.340943574905396,
+                25
+            ],
+            [
+                33.95636606216431,
+                25
+            ],
+            [
+                25.478567361831665,
+                26
+            ],
+            [
+                38.67577767372131,
+                24
+            ]
+        ]
+    }
+]
