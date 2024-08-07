@@ -7,7 +7,6 @@
 [![Docker Image Backend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml)
 [![Docker Image Frontend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml)
 
-Replace christianwhollar and DocuWhisper with your GitHub username and repository name, 
 ## Project Purpose
 I developed DocuWhisper as part of the AIPI 561: Operationalizing AI (MLOps) course at Duke University (Master of Engineering in Artificial Intelligence). The primary goal of DocuWhisper is to enable users to interact with and query documents in a conversational manner using advanced AI techniques.
 
@@ -84,6 +83,22 @@ The frontend and backend services run as individual containerized applications, 
 
 8. **Access the Frontend:**
     Open your browser and navigate to [http://localhost:8501](http://localhost:8501) to enter the frontend.
+
+## How to Test
+
+Tests are already run as part of the CI/CD pipeline. For local testing, follow these steps:
+
+1. Navigate to the backend directory and run tests:
+   ```sh
+   cd ./backend
+   pytest
+   ```
+
+2. Navigate to the frontend directory and run tests:
+   ```sh
+   cd ./frontend
+   pytest
+   ```
 
 ## Demo Video
 
@@ -163,5 +178,3 @@ frontend/                       <- Frontend folder containing all frontend-relat
 
 ## Architecture Diagram 
 ![Architecture](./images/Architecture.png)
-
-## CI/CD Badges
