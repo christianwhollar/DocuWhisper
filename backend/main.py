@@ -1,6 +1,4 @@
 # main.py
-import os
-
 from fastapi import FastAPI, File, UploadFile, HTTPException
 from pydantic import BaseModel
 
