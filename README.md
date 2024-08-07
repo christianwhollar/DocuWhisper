@@ -2,13 +2,9 @@
 *Christian Hollar (christian.hollar@duke.edu)*
 
 [![Backend Python CI](https://github.com/christianwhollar/testmancer/actions/workflows/backend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/backend-py-ci.yml)
-
 [![Backend Rust CI](https://github.com/christianwhollar/testmancer/actions/workflows/backend-rust-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/backend-rust-ci.yml)
-
 [![Frontend Python CI](https://github.com/christianwhollar/testmancer/actions/workflows/frontend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/frontend-py-ci.yml)
-
 [![Docker Image Backend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml)
-
 [![Docker Image Frontend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml)
 
 Replace christianwhollar and DocuWhisper with your GitHub username and repository name, 
