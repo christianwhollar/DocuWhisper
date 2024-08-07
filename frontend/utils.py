@@ -2,13 +2,13 @@ import re
 
 
 def clean_response(response: str) -> str:
-    """_summary_
-
+    """
+    Clean Rag Agent Response for Frontend
     Args:
-        response (str): _description_
+        response (str): Raw agent response.
 
     Returns:
-        str: _description_
+        str: Clean agent response.
     """
     # Remove specific unwanted tags
     response = response.replace("</s>", "")

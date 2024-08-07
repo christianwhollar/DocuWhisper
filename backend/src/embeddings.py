@@ -13,11 +13,16 @@ nltk.download("punkt")
 
 
 class Embeddings:
-    """_summary_"""
+    """Generate or Load Embeddings"""
 
     def __init__(self, model_id: str, HUGGINGFACE_API_KEY: str, db_mode: bool = False):
         """
-        Embeddings Class Initialization
+        Initialize Embeddings Object
+
+        Args:
+            model_id (str): Model ID to Generate Embeddings
+            HUGGINGFACE_API_KEY (str): Huggingface API Key
+            db_mode (bool, optional): Database Mode. Defaults to False.
         """
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_id, token=HUGGINGFACE_API_KEY
@@ -48,7 +53,8 @@ class Embeddings:
     def get_embeddings(
         self, titles: List[str], texts: List[str], embedding_directory: str
     ) -> Tuple[List[np.ndarray], List[str]]:
-        """Generate Embeddings
+        """
+        Load or Generate Embeddings Local
 
         Args:
             titles (List[str]):
@@ -72,6 +78,7 @@ class Embeddings:
                 " ".join(sentences[i : i + 3]) for i in range(0, len(sentences), 3)
             ]
 
+            # Iterate Through Chunk Number, and Chunk
             for idx, chunk in enumerate(chunked_texts):
                 chunk_title = f"{title.replace(' ', '_')}_{idx + 1}"
                 chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
@@ -79,9 +86,12 @@ class Embeddings:
 
                 file_path = os.path.join(embedding_directory, chunk_title + ".npy")
 
+                # Check if Embedding Exists for Chunk
                 if os.path.exists(file_path):
                     embedding = np.load(file_path, allow_pickle=True).tolist()
                     embeddings.extend(embedding)
+
+                # Else Generate Embedding
                 else:
                     inputs = self.tokenizer(
                         chunk,
@@ -103,21 +113,24 @@ class Embeddings:
 
                     embeddings.append(embedding.astype(np.float32))
 
+                    # Save Embedding Locally
                     np.save(file_path, [embedding])
 
         return embeddings, chunked_texts_with_titles
 
     def get_embeddings_query(self, texts: List[str]) -> List[np.ndarray]:
-        """_summary_
+        """
+        Get Embedding for Query
 
         Args:
-            texts (List[str]): _description_
+            texts (List[str]): Query
 
         Returns:
-            List[np.ndarray]: _description_
+            List[np.ndarray]: Embedding for Query
         """
         embeddings = []
 
+        # Iterate through Queries
         for text in texts:
             inputs = self.tokenizer(
                 text, return_tensors="pt", padding=True, truncation=True, max_length=512
@@ -128,24 +141,27 @@ class Embeddings:
             with torch.no_grad():
                 outputs = self.model(**inputs)
 
+            # Generate Embedding
             embedding = outputs.last_hidden_state.mean(dim=1).cpu().numpy()[0]
             embeddings.append(embedding.astype(np.float32))
 
         return embeddings
 
     def get_chunk(self, title: str, chunk_text: str = None) -> List[Tuple[int, str]]:
-        """_summary_
+        """
+        Get Chunks from Database
 
         Args:
-            title (str): _description_
-            chunk_text (str, optional): _description_. Defaults to None.
+            title (str): Title of Parent
+            chunk_text (str, optional): Chunk ID. Defaults to None.
 
         Returns:
-            List[Tuple[int, str]]: _description_
+            List[Tuple[int, str]]: List of Chunks, IDs
         """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
+        # If Chunk ID Given
         if chunk_text:
             cursor.execute(
                 """
@@ -155,6 +171,8 @@ class Embeddings:
                 """,
                 (title, chunk_text),
             )
+        
+        # Get All Chunks for Document ID
         else:
             cursor.execute(
                 """
@@ -172,13 +190,14 @@ class Embeddings:
         return chunks
 
     def get_embedding(self, chunk_id: int = None) -> List[np.ndarray]:
-        """_summary_
+        """
+        Get Embeddings from Database
 
         Args:
-            chunk_id (int, optional): _description_. Defaults to None.
+            chunk_id (int, optional): Chunk ID of Embedding. Defaults to None.
 
         Returns:
-            List[np.ndarray]: _description_
+            List[np.ndarray]: List of Embeddings
         """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
@@ -209,6 +228,21 @@ class Embeddings:
     def get_embeddings_db(
         self, titles: List[str], texts: List[str]
     ) -> Tuple[List[np.ndarray], List[str]]:
+        """
+        Load or Generate Embeddings Database
+
+        Args:
+            titles (List[str]):
+                List of titles for documents.
+            texts (List[str]):
+                List of texts for documents.
+            embedding_directory (str):
+                Save directory for generated embeddings.
+
+        Returns:
+            Tuple[List[np.ndarray], List[str]]:
+                Returns generated embeddings and text chunks.
+        """
         embeddings = []
         chunked_texts_with_titles = []
 
@@ -218,14 +252,18 @@ class Embeddings:
                 " ".join(sentences[i : i + 3]) for i in range(0, len(sentences), 3)
             ]
 
+            # Iterate through Chunk Number, Chunk
             for idx, chunk in enumerate(chunked_texts):
                 chunked_text_with_title = f"{title}_Chunk_{idx + 1}: {chunk}"
                 chunked_texts_with_titles.append(chunked_text_with_title)
 
                 chunk_result = self.get_chunk(title, chunk)
 
+                # Get Chunk if Exists
                 if chunk_result:
                     chunk_id = chunk_result[0][0]
+
+                # Else Add to Database
                 else:
                     conn = psycopg2.connect(**self.db_config)
                     cursor = conn.cursor()
@@ -242,12 +280,15 @@ class Embeddings:
                     cursor.close()
                     conn.close()
 
+                # Get Chunk Embedding
                 embedding_result = self.get_embedding(chunk_id)
 
+                # If Chunk Embedding Exists, Append to Output
                 if embedding_result:
                     embedding = np.frombuffer(embedding_result[0][1], dtype=np.float32)
-
                     embeddings.append(embedding)
+                
+                # Else Generate Chunk
                 else:
                     inputs = self.tokenizer(
                         chunk,

@@ -6,16 +6,29 @@ from dotenv import load_dotenv
 
 
 class DocumentLoader:
-    """_summary_"""
+    """Document Loader for Rag Agent"""
 
     def __init__(self, directory: str, db_mode: bool = False):
+        """
+        Initialize Document Loader
+
+        Args:
+            directory (str): Set local directory.
+            db_mode (bool, optional): Database mode. Defaults to False.
+        """
         self.directory = directory
         if db_mode:
+            # Load Database Config & Build Database
             self.db_config = self.load_db_config()
             self.build_db()
 
-    def load_documents(self) -> List[str]:
-        """ """
+    def load_documents(self) -> Tuple[List[str], List[str]]:
+        """
+        Load Local Documents
+
+        Returns:
+            Tuple[List[str], List[str]]: Titles of Documents, Documents
+        """
         titles, documents = [], []
 
         for filename in os.listdir(self.directory):
@@ -31,11 +44,12 @@ class DocumentLoader:
 
         return titles, documents
 
-    def load_db_config(self):
-        """_summary_
+    def load_db_config(self) -> dict:
+        """
+        Load Database Config
 
         Returns:
-            _type_: _description_
+            dict: Database Config Dict
         """
         load_dotenv()
         return {
@@ -47,6 +61,9 @@ class DocumentLoader:
         }
 
     def clear_database(self):
+        """
+        Clear Database
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
@@ -57,6 +74,9 @@ class DocumentLoader:
         conn.close()
 
     def build_db(self):
+        """
+        Build Database (documents, chunks, embeddings)
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
@@ -98,6 +118,13 @@ class DocumentLoader:
         conn.close()
 
     def store_in_db(self, titles: List[str], documents: List[Tuple[str, str]]):
+        """
+        Store Titles, Documents in Database
+
+        Args:
+            titles (List[str]): List of Titles
+            documents (List[str]): List of Documents
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
@@ -117,7 +144,13 @@ class DocumentLoader:
         cursor.close()
         conn.close()
 
-    def load_from_db(self):
+    def load_from_db(self) -> Tuple[List[str], List[str]]:
+        """
+        Load all Documents from Database
+
+        Returns:
+            Tuple[List[str], List[str]]: List of Titles, List of Documents
+        """
         conn = psycopg2.connect(**self.db_config)
         cursor = conn.cursor()
 
