@@ -171,7 +171,7 @@ class Embeddings:
                 """,
                 (title, chunk_text),
             )
-        
+
         # Get All Chunks for Document ID
         else:
             cursor.execute(
@@ -287,7 +287,7 @@ class Embeddings:
                 if embedding_result:
                     embedding = np.frombuffer(embedding_result[0][1], dtype=np.float32)
                     embeddings.append(embedding)
-                
+
                 # Else Generate Chunk
                 else:
                     inputs = self.tokenizer(
