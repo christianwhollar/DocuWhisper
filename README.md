@@ -1,6 +1,17 @@
 # DocuWhisper
 *Christian Hollar (christian.hollar@duke.edu)*
 
+[![Backend Python CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-py-ci.yml)
+
+[![Backend Rust CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-rust-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/backend-rust-ci.yml)
+
+[![Frontend Python CI](https://github.com/christianwhollar/DocuWhisper/actions/workflows/frontend-py-ci.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/frontend-py-ci.yml)
+
+[![Docker Image Backend](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-backend.yml)
+
+[![Docker Image Frontend](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/DocuWhisper/actions/workflows/docker-image-frontend.yml)
+
+Replace christianwhollar and DocuWhisper with your GitHub username and repository name, 
 ## Project Purpose
 I developed DocuWhisper as part of the AIPI 561: Operationalizing AI (MLOps) course at Duke University (Master of Engineering in Artificial Intelligence). The primary goal of DocuWhisper is to enable users to interact with and query documents in a conversational manner using advanced AI techniques.
 
