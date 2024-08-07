@@ -5,4 +5,4 @@ id =  "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
 directory = "data/test/"
 
 [llm]
-api_url = "http://localhost:8080/v1" 
+api_url = "http://host.docker.internal:8080/v1" 

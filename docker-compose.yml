@@ -6,12 +6,16 @@ services:
       dockerfile: Dockerfile.backend
     ports:
       - "8000:8000"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./backend:/app
     environment:
       - ENV=development
       - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
-  
+    networks:
+      - app-network
+      
   frontend:
     build:
       context: .
@@ -23,3 +27,9 @@ services:
     environment:
       - ENV=development
       - HUGGINGFACE_API_KEY=${HUGGINGFACE_API_KEY}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

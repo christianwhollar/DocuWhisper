@@ -5,7 +5,7 @@ from utils import clean_response
 
 st.title("Doc Bot")
 
-url = "http://0.0.0.0:8000/query"
+url = "http://backend:8000/query"
 
 # Create Messages List
 if "messages" not in st.session_state:

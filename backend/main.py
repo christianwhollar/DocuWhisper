@@ -7,7 +7,6 @@ from src.initialize import initialize_rag_agent
 
 app = FastAPI()
 
-
 class Query(BaseModel):
     text: str
 
@@ -18,6 +17,9 @@ class Response(BaseModel):
 
 rag_agent = initialize_rag_agent()
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
 
 @app.post("/query", response_model=Response)
 async def query(query: Query):
