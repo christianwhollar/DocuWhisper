@@ -7,6 +7,15 @@
 [![Docker Image Backend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-backend.yml)
 [![Docker Image Frontend](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml/badge.svg)](https://github.com/christianwhollar/testmancer/actions/workflows/docker-image-frontend.yml)
 
+## Table of Contents
+- [Project Purpose](#project-purpose)
+- [How to Run](#how-to-run)
+- [How to Test](#how-to-run)
+- [Demo Video](#how-to-run)
+- [Repository Structure](#repository-structure)
+- [Architecture Diagram](#architecture-diagram)
+- [Model Evaluation](#model-evaluation)
+
 ## Project Purpose
 I developed DocuWhisper as part of the AIPI 561: Operationalizing AI (MLOps) course at Duke University (Master of Engineering in Artificial Intelligence). The primary goal of DocuWhisper is to enable users to interact with and query documents in a conversational manner using advanced AI techniques.
 
@@ -178,3 +187,19 @@ frontend/                       <- Frontend folder containing all frontend-relat
 
 ## Architecture Diagram 
 ![Architecture](./images/Architecture.png)
+
+## Model Evaluation
+- TinyLlama-1.1B
+    * Average Latency (sec):
+    * Output Speed (tokens/sec):
+    * Response Time vs. Query Length:
+
+- Mistral-7B-Instruct
+    * Average Latency (sec):
+    * Output Speed (tokens/sec):
+    * Response Time vs. Query Length:
+
+- LLaMA-3-Instruct-8B
+    * Average Latency (sec):
+    * Output Speed (tokens/sec):
+    * Response Time vs. Query Length:
