@@ -9,7 +9,10 @@ from dotenv import load_dotenv
 from nltk.tokenize import sent_tokenize
 from transformers import AutoModel, AutoTokenizer
 
-nltk.download("punkt")
+try:
+    nltk.find("punkt")
+except LookupError:
+    nltk.download("punkt")
 
 
 class Embeddings:
