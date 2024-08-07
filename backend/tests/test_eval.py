@@ -14,6 +14,7 @@ from src.rag_agent import RAGAgent
 
 load_dotenv()
 
+
 def check_url_responsive(url):
     try:
         print(url)
@@ -22,18 +23,23 @@ def check_url_responsive(url):
     except requests.RequestException:
         return False
 
+
 def load_config():
-    env = 'test'
-    with open(f'config/config.{env}.toml', 'r') as file:
+    env = "test"
+    with open(f"config/config.{env}.toml", "r") as file:
         return toml.load(file)
-    
+
+
 @pytest.mark.skip(reason="Skipping by default. Remove this mark to run the test.")
-@pytest.mark.skipif(not check_url_responsive(load_config()['llm']['api_url']), reason="LLM API URL is not responsive")
+@pytest.mark.skipif(
+    not check_url_responsive(load_config()["llm"]["api_url"]),
+    reason="LLM API URL is not responsive",
+)
 def test_rag_agent_evaluation():
     config = load_config()
 
-    model_id = config['model']['id']
-    document_directory = config['documents']['directory']
+    model_id = config["model"]["id"]
+    document_directory = config["documents"]["directory"]
     embedding_directory = os.path.join(document_directory, "embeddings")
 
     loader = DocumentLoader(document_directory)
@@ -44,14 +50,16 @@ def test_rag_agent_evaluation():
         raise ValueError("HUGGINGFACE_API_KEY not found in environment variables")
 
     embeddings = Embeddings(model_id=model_id, HUGGINGFACE_API_KEY=huggingface_api_key)
-    document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(titles, documents, embedding_directory=embedding_directory)
+    document_embeddings, chunked_texts_with_titles = embeddings.get_embeddings(
+        titles, documents, embedding_directory=embedding_directory
+    )
 
     embedding_dimension = len(document_embeddings[0])
     vector_store = VectorStore(dimension=embedding_dimension)
     vector_store.add_documents(chunked_texts_with_titles, document_embeddings)
 
     retriever = Retriever(vector_store, embeddings)
-    llm = LLM(config['llm']['api_url'])
+    llm = LLM(config["llm"]["api_url"])
 
     rag_agent = RAGAgent(retriever=retriever, llm=llm)
 
@@ -98,7 +106,7 @@ def test_rag_agent_evaluation():
             "response_tokens": response_tokens,
             "time_taken": time_taken,
             "output_speed": output_speed,
-            "average_latency": average_latency
+            "average_latency": average_latency,
         }
         results.append(result)
 
@@ -106,7 +114,7 @@ def test_rag_agent_evaluation():
     summary = {
         "average_latency_sec": sum(average_latencies) / len(average_latencies),
         "output_speed_tokens_sec": sum(output_speeds) / len(output_speeds),
-        "response_time_vs_query_length": list(zip(times, query_lengths))
+        "response_time_vs_query_length": list(zip(times, query_lengths)),
     }
 
     # Add summary to results
@@ -114,9 +122,11 @@ def test_rag_agent_evaluation():
 
     # Save results to a file
     timestamp = int(time.time())
-    output_directory = "evals/" + model_id.split('/')[0]
+    output_directory = "evals/" + model_id.split("/")[0]
     os.makedirs(output_directory, exist_ok=True)
-    output_file = os.path.join(output_directory, f"{model_id.split('/')[-1]}_{timestamp}.json")
+    output_file = os.path.join(
+        output_directory, f"{model_id.split('/')[-1]}_{timestamp}.json"
+    )
 
-    with open(output_file, 'w') as file:
+    with open(output_file, "w") as file:
         json.dump(results, file, indent=4)
