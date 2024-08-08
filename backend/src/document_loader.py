@@ -13,7 +13,7 @@ class DocumentLoader:
         Initialize Document Loader
 
         Args:
-            directory (str): Set local directory.
+            directory (str): Set local dir.
             db_mode (bool, optional): Database mode. Defaults to False.
         """
         self.directory = directory

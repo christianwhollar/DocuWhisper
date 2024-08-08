@@ -15,4 +15,3 @@ black
 flake8
 streamlit
 requests-mock
-python-multipart
