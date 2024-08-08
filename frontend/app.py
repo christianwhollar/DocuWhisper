@@ -1,6 +1,7 @@
 import streamlit as st
 import requests
 from utils import clean_response
+import base64
 
 st.title("Doc Bot")
 
@@ -42,20 +43,14 @@ if prompt := st.chat_input(""):
 
 # Multiple File Upload
 uploaded_files = st.file_uploader("Choose files to upload", accept_multiple_files=True)
-
 if uploaded_files:
     for uploaded_file in uploaded_files:
         # Display file name
         st.write(f"File selected: {uploaded_file.name}")
-
+        # Read file content
+        file_content = uploaded_file.read()
+        # Encode file content as base64
+        file_content_base64 = base64.b64encode(file_content).decode("utf-8")
+        file_data = {"filename": uploaded_file.name, "content": file_content_base64}
         # Send file to upload URL
-        files = {"file": uploaded_file.getvalue()}
-        response = requests.post(upload_url, files=files)
-
-        if response.status_code == 200:
-            st.success(f"File {uploaded_file.name} uploaded successfully")
-            st.json(response.json())
-        else:
-            st.error(
-                f"Failed to upload file {uploaded_file.name}: {response.status_code}, {response.json()}"
-            )
+        response = requests.post(upload_url, json=file_data)

@@ -1,6 +1,8 @@
 # main.py
-from fastapi import FastAPI, File, UploadFile, HTTPException
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import os
+import base64
 
 from src.initialize import initialize_rag_agent
 
@@ -13,6 +15,11 @@ class Query(BaseModel):
 
 class Response(BaseModel):
     answer: str
+
+
+class FileUpload(BaseModel):
+    filename: str
+    content: str
 
 
 rag_agent = initialize_rag_agent()
@@ -33,15 +40,19 @@ async def query(query: Query):
 
 
 @app.post("/upload")
-async def upload(file: UploadFile = File(...)):
+async def upload(file: FileUpload):
     if not file.filename.endswith(".txt"):
-        raise HTTPException(status_code=400, detail="Only .txt files are allowed")
-
+        raise HTTPException(
+            status_code=400,
+            detail=f"Only .txt files are allowed. Received: {file.filename}",
+        )
     file_location = f"data/test/{file.filename}"
-
     try:
+        os.makedirs(os.path.dirname(file_location), exist_ok=True)
+        # Decode the base64 string back to bytes
+        file_content = base64.b64decode(file.content)
         with open(file_location, "wb") as f:
-            f.write(file.file.read())
+            f.write(file_content)
         return {"info": f"file '{file.filename}' saved at '{file_location}'"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
