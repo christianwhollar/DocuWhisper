@@ -6,6 +6,13 @@ from .vector_store import VectorStore
 
 class Retriever:
     def __init__(self, vector_store: VectorStore, embeddings: Embeddings):
+        """
+        Retrive Embeddings from Vector Store
+
+        Args:
+            vector_store (VectorStore): Vector Store Object
+            embeddings (Embeddings): Embeddings Object
+        """
         self.vector_store = vector_store
         self.embeddings = embeddings
 

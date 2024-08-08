@@ -3,6 +3,12 @@ from openai import OpenAI
 
 class LLM:
     def __init__(self, base_url):
+        """
+        LLM Object for Llamafile API Calls
+
+        Args:
+            base_url (_type_): API URL of Llamafile
+        """
         self.client = OpenAI(base_url=base_url, api_key="sk-no-key-required")
         self.model = "LLaMA_CPP"
         self.messages = [
@@ -17,6 +23,14 @@ class LLM:
         ]
 
     def generate(self, prompt: str) -> str:
+        """
+        Call to Llamafile for LLM Response
+        Args:
+            prompt (str): LLM prompt.
+
+        Returns:
+            str: LLM response.
+        """
         self.messages.append({"role": "user", "content": prompt})
 
         completion = self.client.chat.completions.create(

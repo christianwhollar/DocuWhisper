@@ -149,6 +149,7 @@ Tests are already run as part of the CI/CD pipeline. For local testing, follow t
 │   │   ├── retriever.py              <- Script to retrieve query embeddings and relevant document chunks
 │   │   └── vector_store.py           <- Script to store document chunks and embeddings
 │   ├── tests/                        <- Folder containing pytest tests
+│   │   ├── test_eval.py              <- Tests for generating RAG agent evaluation metrics
 │   │   ├── test_document_loader.py   <- Tests for document_loader.py
 │   │   ├── test_embeddings.py        <- Tests for embeddings.py
 │   │   ├── test_llm.py               <- Tests for llm.py
@@ -170,6 +171,7 @@ Tests are already run as part of the CI/CD pipeline. For local testing, follow t
 │   │       ├── chunks/               <- Folder for storing test document chunks
 │   │       ├── embeddings/           <- Folder for storing test embeddings
 │   │       └── .txt                  <- Folder for storing test text files
+│   ├── evals/                        <- Folder for .json evaluation files
 │   ├── conftest.py                   <- Configuration file for pytest
 │   ├── console.py                    <- Script for backend interaction via command line
 │   └── main.py                       <- Script to run FastAPI/Uvicorn backend server
@@ -189,17 +191,20 @@ frontend/                       <- Frontend folder containing all frontend-relat
 ![Architecture](./images/Architecture.png)
 
 ## Model Evaluation
-- TinyLlama-1.1B
-    * Average Latency (sec):
-    * Output Speed (tokens/sec):
+- **TinyLlama-1.1B-Chat**
+    * Average Latency (sec): 31.075957465171815
+    * Output Speed (tokens/sec): 7.165166254743335
     * Response Time vs. Query Length:
+    ![](./images/TinyLlama1.1BChat.png)
 
-- Mistral-7B-Instruct
-    * Average Latency (sec):
-    * Output Speed (tokens/sec):
+- **Mixtral-8x7B-Instruct**
+    * Average Latency (sec): 82.52777495384217
+    * Output Speed (tokens/sec): 3.3496574519228064
     * Response Time vs. Query Length:
+    ![](./images/Mixtral8x7BInstruct.png)
 
-- LLaMA-3-Instruct-8B
-    * Average Latency (sec):
-    * Output Speed (tokens/sec):
-    * Response Time vs. Query Length:
+- **Meta-Llama-3-8B-Instruct**
+    * Preferred: Balance between average latency, output speed, and quality of answer.
+    * Average Latency (sec): 72.35672855377197
+    * Output Speed (tokens/sec): 3.271704275654538
+    ![](./images/MetaLlama38BInstruct.png)

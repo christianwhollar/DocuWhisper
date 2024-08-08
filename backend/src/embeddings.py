@@ -30,7 +30,7 @@ class Embeddings:
         self.tokenizer = AutoTokenizer.from_pretrained(
             model_id, token=HUGGINGFACE_API_KEY
         )
-
+        print(model_id)
         self.model = AutoModel.from_pretrained(model_id, token=HUGGINGFACE_API_KEY)
 
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

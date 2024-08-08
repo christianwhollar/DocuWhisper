@@ -14,6 +14,9 @@ from src.vector_store import VectorStore
 
 @pytest.fixture
 def setup_environment():
+    """
+    Setup Environment for Pytest Run
+    """
     load_dotenv()
 
     env = os.getenv("ENV")
@@ -34,6 +37,9 @@ def setup_environment():
 
 @pytest.fixture
 def get_document_loader(setup_environment):
+    """
+    Get Document Loader Post Document Load
+    """
     _, document_directory, _, _ = setup_environment
     loader = DocumentLoader(document_directory)
     return loader.load_documents()
@@ -41,6 +47,9 @@ def get_document_loader(setup_environment):
 
 @pytest.fixture
 def get_embeddings(setup_environment, get_document_loader):
+    """
+    Get Embeddings Object, Document Embeddings, Chunked Texts for Pytest
+    """
     model_id, _, embedding_directory, huggingface_api_key = setup_environment
     titles, documents = get_document_loader
 
@@ -54,13 +63,8 @@ def get_embeddings(setup_environment, get_document_loader):
 
 @pytest.fixture
 def get_vector_store(get_embeddings):
-    """_summary_
-
-    Args:
-        get_embeddings (_type_): _description_
-
-    Returns:
-        _type_: _description_
+    """
+    Get Vector Store, Embeddings Object for Pytest
     """
     embeddings, document_embeddings, chunked_texts_with_titles = get_embeddings
     embedding_dimension = len(document_embeddings[0])
@@ -71,13 +75,8 @@ def get_vector_store(get_embeddings):
 
 @pytest.fixture
 def get_retriever(get_vector_store):
-    """_summary_
-
-    Args:
-        get_vector_store (_type_): _description_
-
-    Returns:
-        _type_: _description_
+    """
+    Get Retriver Object for Pytest
     """
     vector_store, embeddings = get_vector_store
     retriever = Retriever(vector_store, embeddings)
@@ -86,16 +85,17 @@ def get_retriever(get_vector_store):
 
 @pytest.fixture
 def get_llm():
-    """_summary_
-
-    Returns:
-        _type_: _description_
+    """
+    Get LLM for Pytest (Mock API URL)
     """
     return LLM(base_url="http://test.com")
 
 
-@pytest.fixture(scope="session", autouse=True)
-def mock_psycopg2():
-    from tests.utils import mock_psycogp2
+# @pytest.fixture(scope="session", autouse=True)
+# def mock_psycopg2():
+#     """
+#     Mock Psycopg2 for Testing
+#     """
+#     from tests.utils import mock_psycogp2
 
-    mock_psycogp2
+#     mock_psycogp2

@@ -30,7 +30,7 @@ def load_config():
         return toml.load(file)
 
 
-@pytest.mark.skip(reason="Skipping by default. Remove this mark to run the test.")
+# @pytest.mark.skip(reason="Skipping by default. Remove this mark to run the test.")
 @pytest.mark.skipif(
     not check_url_responsive(load_config()["llm"]["api_url"]),
     reason="LLM API URL is not responsive",
@@ -65,15 +65,15 @@ def test_rag_agent_evaluation():
 
     queries = [
         "What is the main theme of the book Dracula?",
-        # "Describe the character of Count Dracula.",
-        # "What are the major settings in the book Dracula?",
-        # "What are the significant symbols used in Dracula?",
-        # "How does the author use foreshadowing in Dracula?",
-        # "What is the role of Mina Harker in Dracula?",
-        # "How does Bram Stoker create suspense in Dracula?",
-        # "What is the significance of blood in Dracula?",
-        # "How does the setting influence the mood in Dracula?",
-        # "What are the Gothic elements in Dracula?"
+        "Describe the character of Count Dracula.",
+        "What are the major settings in the book Dracula?",
+        "What are the significant symbols used in Dracula?",
+        "How does the author use foreshadowing in Dracula?",
+        "What is the role of Mina Harker in Dracula?",
+        "How does Bram Stoker create suspense in Dracula?",
+        "What is the significance of blood in Dracula?",
+        "How does the setting influence the mood in Dracula?",
+        "What are the Gothic elements in Dracula?",
     ]
 
     average_latencies = []
