@@ -93,6 +93,22 @@ The frontend and backend services run as individual containerized applications, 
 8. **Access the Frontend:**
     Open your browser and navigate to [http://localhost:8501](http://localhost:8501) to enter the frontend.
 
+After running ```docker-compose up```:
+
+Frontend Status:
+
+![](./images/FrontendStatus.png)
+
+Backend Status:
+
+![](./images/BackendStatus.png)
+
+Frontend Interface Example:
+
+<div style="text-align: center;">
+  <img src="./images/Interface.png" alt="Interface Image" style="width:50%;">
+</div>
+
 ## How to Test
 
 Tests are already run as part of the CI/CD pipeline. For local testing, follow these steps:
@@ -110,6 +126,7 @@ Tests are already run as part of the CI/CD pipeline. For local testing, follow t
    ```
 
 ## Demo Video
+The demo is available [here](https://duke.box.com/s/fr5hcdu9h20c9ulwbz3kosnypmv2brzw).
 
 ## Repository Structure
 ### Base
