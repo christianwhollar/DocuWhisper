@@ -15,12 +15,6 @@ from .vector_store import VectorStore
 def initialize_rag_agent():
     """
     Initialize RAG Agent for Backend
-
-    Raises:
-        ValueError: _description_
-
-    Returns:
-        _type_: _description_
     """
     # Load environment variables
     load_dotenv()
