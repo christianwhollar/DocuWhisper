@@ -10,8 +10,8 @@
 ## Table of Contents
 - [Project Purpose](#project-purpose)
 - [How to Run](#how-to-run)
-- [How to Test](#how-to-run)
-- [Demo Video](#how-to-run)
+- [How to Test](#how-to-test)
+- [Demo Video](#demo-video)
 - [Repository Structure](#repository-structure)
 - [Architecture Diagram](#architecture-diagram)
 - [Model Evaluation](#model-evaluation)
@@ -195,16 +195,19 @@ frontend/                       <- Frontend folder containing all frontend-relat
     * Average Latency (sec): 31.075957465171815
     * Output Speed (tokens/sec): 7.165166254743335
     * Response Time vs. Query Length:
+
     ![](./images/TinyLlama1.1BChat.png)
 
 - **Mixtral-8x7B-Instruct**
     * Average Latency (sec): 82.52777495384217
     * Output Speed (tokens/sec): 3.3496574519228064
     * Response Time vs. Query Length:
+
     ![](./images/Mixtral8x7BInstruct.png)
 
 - **Meta-Llama-3-8B-Instruct**
     * Preferred: Balance between average latency, output speed, and quality of answer.
     * Average Latency (sec): 72.35672855377197
     * Output Speed (tokens/sec): 3.271704275654538
+
     ![](./images/MetaLlama38BInstruct.png)
